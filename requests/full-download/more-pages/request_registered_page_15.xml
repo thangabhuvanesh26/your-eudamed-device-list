@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Device download request: registered devices, page 15 (devices 4501 to 4800). Reads data only. -->
+<m:PullRequest version="3.0.30" xmlns:m="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Message/v1" xmlns:s="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Service/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<m:conversationID>b1ca1760-a04c-47e7-b1f8-d32d064b3180</m:conversationID>
+	<m:correlationID>ac9dc925-a118-4f80-a057-e54ca899dd09</m:correlationID>
+	<m:creationDateTime>2026-11-18T11:33:48+01:00</m:creationDateTime>
+	<m:messageID>5f7fe924-d08e-444d-a67c-8813d0f62a5d</m:messageID>
+	<m:recipient>
+		<m:node>
+			<s:nodeActorCode>EUDAMED</s:nodeActorCode>
+			<s:nodeID>eDelivery:EUDAMED</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>DEVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:recipient>
+	<m:payload/>
+	<m:sender>
+		<m:node>
+			<s:nodeActorCode>XX-MF-000000000</s:nodeActorCode>
+			<s:nodeID>eDelivery:XX-MF-000000000</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>REPLY_SERVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:sender>
+	<m:pageNumber>15</m:pageNumber>
+	<m:pageSize>300</m:pageSize>
+	<m:criteriaPayload>
+		<m:diDownloadCriteria>
+			<s:MFActorCode>XX-MF-000000000</s:MFActorCode>
+			<s:State>REGISTERED</s:State>
+		</m:diDownloadCriteria>
+	</m:criteriaPayload>
+</m:PullRequest>

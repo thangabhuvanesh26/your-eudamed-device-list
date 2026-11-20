@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Changed since" request: registered devices changed on or after the date below. Reads data only. -->
+<m:PullRequest version="3.0.30" xmlns:m="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Message/v1" xmlns:s="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Service/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<m:conversationID>86bf16b9-6fac-4635-8ed9-18cfd0654aff</m:conversationID>
+	<m:correlationID>c1a5a723-1814-49a5-a1e7-f455260b5d9f</m:correlationID>
+	<m:creationDateTime>2026-11-18T11:33:48+01:00</m:creationDateTime>
+	<m:messageID>26783ffa-e228-4cb0-9cf2-f09de2a10ccf</m:messageID>
+	<m:recipient>
+		<m:node>
+			<s:nodeActorCode>EUDAMED</s:nodeActorCode>
+			<s:nodeID>eDelivery:EUDAMED</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>DEVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:recipient>
+	<m:payload/>
+	<m:sender>
+		<m:node>
+			<s:nodeActorCode>XX-MF-000000000</s:nodeActorCode>
+			<s:nodeID>eDelivery:XX-MF-000000000</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>REPLY_SERVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:sender>
+	<m:pageNumber>0</m:pageNumber>
+	<m:pageSize>300</m:pageSize>
+	<m:criteriaPayload>
+		<m:diDownloadCriteria>
+			<s:MFActorCode>XX-MF-000000000</s:MFActorCode>
+			<!-- CHANGE THIS DATE to the day of your last download (year-month-day). Change nothing else. -->
+			<s:UDIDIVersionDate>2026-11-20</s:UDIDIVersionDate>
+			<s:State>REGISTERED</s:State>
+		</m:diDownloadCriteria>
+	</m:criteriaPayload>
+</m:PullRequest>

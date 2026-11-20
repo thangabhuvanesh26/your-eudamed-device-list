@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Device download request: discarded devices, page 4 (devices 1201 to 1500). Reads data only. -->
+<m:PullRequest version="3.0.30" xmlns:m="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Message/v1" xmlns:s="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Service/v1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<m:conversationID>e7f59400-ff76-4972-8572-c4c57a6a3b9f</m:conversationID>
+	<m:correlationID>b9027cb5-8b17-406e-83d9-26b4fa85e0d9</m:correlationID>
+	<m:creationDateTime>2026-11-18T11:33:48+01:00</m:creationDateTime>
+	<m:messageID>80cf0108-f562-4d0a-b6e6-6a1187d60703</m:messageID>
+	<m:recipient>
+		<m:node>
+			<s:nodeActorCode>EUDAMED</s:nodeActorCode>
+			<s:nodeID>eDelivery:EUDAMED</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>DEVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:recipient>
+	<m:payload/>
+	<m:sender>
+		<m:node>
+			<s:nodeActorCode>XX-MF-000000000</s:nodeActorCode>
+			<s:nodeID>eDelivery:XX-MF-000000000</s:nodeID>
+		</m:node>
+		<m:service>
+			<s:serviceID>REPLY_SERVICE</s:serviceID>
+			<s:serviceOperation>GET</s:serviceOperation>
+		</m:service>
+	</m:sender>
+	<m:pageNumber>4</m:pageNumber>
+	<m:pageSize>300</m:pageSize>
+	<m:criteriaPayload>
+		<m:diDownloadCriteria>
+			<s:MFActorCode>XX-MF-000000000</s:MFActorCode>
+			<s:State>DISCARDED</s:State>
+		</m:diDownloadCriteria>
+	</m:criteriaPayload>
+</m:PullRequest>

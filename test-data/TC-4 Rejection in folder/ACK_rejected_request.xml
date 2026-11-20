@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<message:Acknowledgement version="3.0.30" xmlns:message="https://ec.europa.eu/tools/eudamed/dtx/servicemodel/Message/v1">
+    <message:conversationID>00000000-0000-4000-8000-0000000000f1</message:conversationID>
+    <message:correlationID>00000000-0000-4000-8000-0000000000f2</message:correlationID>
+    <message:creationDateTime>2026-11-20T09:55:00.000+01:00</message:creationDateTime>
+    <message:messageID>00000000-0000-4000-8000-0000000000f3</message:messageID>
+    <message:recipient/>
+    <message:sender/>
+    <message:responseEntities>
+        <message:responseEntity>
+            <message:entityCode>00000000-0000-4000-8000-0000000000f3</message:entityCode>
+            <message:responseCode>BAD_REQUEST</message:responseCode>
+            <message:report>
+                <message:elementReport>
+                    <message:operationErrorCode>E-I-40000</message:operationErrorCode>
+                    <message:operationDetail>E-I-40000: schema version not accepted (synthetic test file)</message:operationDetail>
+                </message:elementReport>
+            </message:report>
+        </message:responseEntity>
+    </message:responseEntities>
+</message:Acknowledgement>
