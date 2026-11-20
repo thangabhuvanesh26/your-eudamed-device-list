@@ -1,4 +1,4 @@
-// EUDAMED device list, version 3.2 (Power Query / M)
+// EUDAMED device list, version 3.3 (Power Query / M)
 //
 // What it does: reads the response XML files EUDAMED returns for a device
 // download request (DEVICE.GET sent through Bulk Upload) and lists the device
@@ -9,10 +9,12 @@
 // for the 12-hour rule). Fetch all pages of both states on the same day. Start an
 // empty folder for each new full download.
 //
-// It stops with an error, instead of guessing, if a file is an acknowledgement
-// (for example a rejection), not a SUCCESS response, misses or has impossible page
-// or date information, holds two different responses for the same page, or holds
-// a record of a type it cannot read (it reads MDR and legacy MDD records).
+// It stops with an error, instead of guessing, if a file has ".xml" in its name
+// but does not end in .xml (for example response.xml.txt), if a file is an
+// acknowledgement (for example a rejection), not a SUCCESS response, misses or has
+// impossible page or date information, holds two different responses for the same
+// page, or holds a record of a type it cannot read (it reads MDR and legacy MDD
+// records), or if the pages of one download state different page counts.
 // It cannot know about a response you never saved: check that both states
 // returned a response, even when one of them has no records.
 //
@@ -70,16 +72,29 @@ let
 
     // The .xml files directly in the folder (not in subfolders); exact copies count once.
     // Lock files (~$...) that Excel or Word leave while a file is open are skipped.
+    // Other files are ignored, but a file with ".xml" in its name that does not end in
+    // .xml (for example response.xml.txt or a download still ending in .crdownload) is
+    // most likely a response saved under a wrong name, so the refresh stops.
     XmlFiles = (folder as text) as table =>
         let
-            all    = Folder.Contents(folder),
-            xml    = Table.SelectRows(all, each Text.Lower([Extension]) = ".xml" and [Content] is binary
+            all      = Table.SelectRows(Folder.Contents(folder), each [Content] is binary
                                                 and not Text.StartsWith([Name], "~$")),
-            sorted = Table.Buffer(Table.Sort(xml, {"Name"})),
-            text   = Table.AddColumn(sorted, "Text", each Text.FromBinary([Content])),
-            unique = Table.Distinct(text, {"Text"})
+            xml      = Table.SelectRows(all, each Text.Lower([Extension]) = ".xml"),
+            misnamed = List.Sort(Table.SelectRows(all, each Text.Lower([Extension]) <> ".xml"
+                                                and Text.Contains(Text.Lower([Name]), ".xml"))[Name]),
+            sorted   = Table.Buffer(Table.Sort(xml, {"Name"})),
+            text     = Table.AddColumn(sorted, "Text", each Text.FromBinary([Content])),
+            unique   = Table.Distinct(text, {"Text"})
         in
-            Table.SelectColumns(unique, {"Name", "Content"}),
+            if not List.IsEmpty(misnamed) then
+                error ("EUDAMED device list: " & Text.Combine(misnamed, ", ") &
+                       (if List.Count(misnamed) = 1
+                        then " has .xml in its name but does not end in .xml, so it would not be read. Rename the file"
+                        else " have .xml in their names but do not end in .xml, so they would not be read. Rename each file") &
+                       " so that its name ends in .xml and refresh again. To see the full file names, turn on " &
+                       "View > Show > File name extensions in File Explorer.")
+            else
+                Table.SelectColumns(unique, {"Name", "Content"}),
 
     // ---------- 2. Read one response file ----------
 
@@ -191,6 +206,16 @@ let
                            and Near([ResponseTime], r[ResponseTime])),
             (d) => "page " & Text.From(r[Page]) & " in " & Text.Combine(List.Sort({r[File], d[File]}), " and "))))),
 
+    // All pages of one download (same conversationID, within a few days, as for the
+    // missing-page check below) must state the same numberOfPages. If they differ, the
+    // files do not come from one complete download and the page check cannot be trusted.
+    Conflicts = List.Distinct(List.Transform(List.Select(Responses, (r) =>
+        List.MatchesAny(Responses, each [ConversationID] = r[ConversationID] and [Pages] <> r[Pages]
+                                        and Near([ResponseTime], r[ResponseTime]))), (r) =>
+        Text.Combine(List.Transform(List.Sort(List.Select(Responses, each [ConversationID] = r[ConversationID]
+                                                and Near([ResponseTime], r[ResponseTime])), each [File]),
+            each [File] & " says numberOfPages " & Text.From([Pages])), ", "))),
+
     // Every page from 0 to numberOfPages - 1 must be in the folder, from the same download.
     // Each missing page is reported once, with the first file of that download.
     Missing = List.Distinct(List.Combine(List.Transform(Responses, (r) =>
@@ -214,6 +239,11 @@ let
                          Text.Combine(Duplicates, "; ") & ". This happens when the same request files are sent again " &
                          "within a few days. Keep one complete download in this folder: move the files of the other " &
                          "one to another folder and refresh again.")
+              else if not List.IsEmpty(Conflicts) then
+                  error ("EUDAMED device list: the pages of one download state different page counts: " &
+                         Text.Combine(Conflicts, "; ") & ". The files do not form one complete download. " &
+                         "Download that state again as a full set (all pages, the same day) into an empty folder " &
+                         "and refresh again.")
               else if List.IsEmpty(Missing) then AllRows
               else error ("EUDAMED device list: the list would be incomplete. Missing: " & Text.Combine(Missing, "; ") &
                           ". Download the missing page(s), save them in the folder and refresh again."),

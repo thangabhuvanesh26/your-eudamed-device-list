@@ -17,7 +17,7 @@ Every request file states the schema version in its first element, for example:
 
 The current Production version is also shown at the top of `README.md`.
 
-If a request is rejected because of the schema version, the rejection message names the version it wants. Open each request file you will send in Notepad, change the value inside `version="..."` in the `<m:PullRequest ...>` line to that version, change nothing else, and save. With Python, `python tools\make_request_files.py XX-MF-000000000 --version <version> --out <new folder>` writes a fresh set with the new version (replace the parts in angle brackets).
+If a request is rejected because of the schema version, the rejection message names the version it wants. Open each request file you will send in Notepad, change the value inside `version="..."` in the `<m:PullRequest ...>` line to that version, change nothing else, and save. With Python, run from the package folder: `python advanced\tools\make_request_files.py XX-MF-000000000 --version <version> --out <new folder>` writes a fresh set with the new version (replace the parts in angle brackets).
 
 ## State filter
 
